@@ -7,6 +7,8 @@ import { AppContext } from '../Context/AppContext';
 const Navbar = () => {
     const {openSignIn} = useClerk();
     const {user} = useUser();
+    // console.log(user);
+
     const navigate = useNavigate();
     const {setShowRecruiterLogin} = useContext(AppContext);
   return (
