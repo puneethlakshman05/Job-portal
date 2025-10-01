@@ -28,8 +28,14 @@ export const clerkWebhooks = async (req, res) => {
           image: data.image_url,
           resume: "",
         };
-        await User.create(userData);
-        console.log("✅ User created in DB:", userData);
+       try {
+            await User.create(userData);
+            console.log("✅ User saved to DB:", userData);
+        }           
+            catch (err) {
+            console.error("❌ DB Insert Error:", err.message);
+            }
+
         res.json({ success: true });
         break;
       }

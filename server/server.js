@@ -15,8 +15,16 @@ import { clerkWebhooks } from "./controllers/webhooks.js";
 const app = express();
 
 // 📌 Connect DB + Cloudinary
-await connectDB();
-await connectCloudinary();
+(async () => {
+  await connectDB();
+  await connectCloudinary();
+})();
+
+
+// ✅ Clerk Webhooks (raw body required only here)
+app.use("/webhooks", bodyParser.raw({ type: "*/*" }));
+app.post("/webhooks", clerkWebhooks);
+
 
 // Middlewares
 app.use(cors());
@@ -31,9 +39,6 @@ app.get("/debug-sentry", function mainHandler(req, res) {
   throw new Error("My first Sentry error!");
 });
 
-// ✅ Clerk Webhooks (raw body required only here)
-app.use("/webhooks", bodyParser.raw({ type: "*/*" }));
-app.post("/webhooks", clerkWebhooks);
 
 // API Routes
 app.use("/api/company", companyRoutes);
