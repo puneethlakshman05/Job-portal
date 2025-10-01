@@ -2,6 +2,7 @@ import { Webhook } from "svix";
 import User from "../models/User.js";
 
 export const clerkWebhooks = async (req, res) => {
+     console.log("📩 Incoming webhook:", req.headers, req.body?.toString());
   try {
     const payload = req.body.toString("utf8");
     const headers = {
