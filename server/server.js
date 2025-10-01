@@ -22,8 +22,13 @@ const app = express();
 
 
 // ✅ Clerk Webhooks (raw body required only here)
-app.use("/webhooks", bodyParser.raw({ type: "*/*" }));
-app.post("/webhooks", clerkWebhooks);
+// Clerk Webhook (must be raw body)
+app.post(
+  "/webhooks",
+  bodyParser.raw({ type: "application/json" }),
+  clerkWebhooks
+);
+
 
 
 // Middlewares
