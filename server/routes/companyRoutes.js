@@ -3,7 +3,7 @@ import multer from "multer";
 import { changeApplicationStatus, changeVisibility, getCompanyData, getCompanyJobApplicants, getCompanyPostedJobs, loginCompany, postJob, registerCompany } from "../controllers/companyController.js";
 import { protectCompany } from "../middleware/authMiddleware.js";
 const router = express.Router();
-const upload = multer({dest:'uploads/'})
+// const upload = multer({dest:'uploads/'})
 //register a company
 router.post('/register',upload.single('image'),registerCompany);
 ///company login
