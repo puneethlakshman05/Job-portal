@@ -4,7 +4,9 @@ import User from "../models/User.js";
 export const clerkWebhooks = async (req, res) => {
   try {
     // Clerk requires raw payload for verification
-    const payload = req.body.toString("utf8");
+    const payload = req.body;
+    console.log("Webhook payload:", payload);
+    
     const headers = {
       "svix-id": req.headers["svix-id"],
       "svix-timestamp": req.headers["svix-timestamp"],
