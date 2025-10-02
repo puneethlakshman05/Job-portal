@@ -20,25 +20,28 @@ export const clerkWebhooks = async (req, res) => {
     console.log("✅ Webhook event received:", type, data.id);
 
     switch (type) {
-      case "user.created": {
-        const userData = {
-          _id: data.id,
-          email: data.email_addresses[0].email_address,
-          name: `${data.first_name || ""} ${data.last_name || ""}`.trim(),
-          image: data.image_url,
-          resume: "",
-        };
-       try {
-            await User.create(userData);
-            console.log("✅ User saved to DB:", userData);
-        }           
-            catch (err) {
-            console.error("❌ DB Insert Error:", err.message);
-            }
+   case "user.created": {
+  const userData = {
+    _id: data.id,
+    email: data.email_addresses[0].email_address,
+    name: `${data.first_name || ""} ${data.last_name || ""}`.trim(),
+    image: data.image_url,
+    resume: "",
+  };
 
-        res.json({ success: true });
-        break;
-      }
+  console.log("📌 Attempting to insert user:", userData);
+
+  try {
+    const saved = await User.create(userData);
+    console.log("✅ User saved to DB:", saved);
+  } catch (err) {
+    console.error("❌ DB Insert Error:", err); // print full error, not just message
+  }
+
+  res.json({ success: true });
+  break;
+}
+
 
       case "user.updated": {
         const userData = {
