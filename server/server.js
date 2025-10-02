@@ -23,11 +23,11 @@ const app = express();
 
 // ✅ Clerk Webhooks (raw body required only here)
 // Clerk Webhook (must be raw body)
-app.post(
-  "/webhooks",
-  bodyParser.raw({ type: "application/json" }),
-  clerkWebhooks
-);
+// app.post(
+//   "/webhooks",
+//   bodyParser.raw({ type: "application/json" }),
+//   clerkWebhooks
+// );
 
 
 
@@ -35,6 +35,8 @@ app.post(
 app.use(cors());
 app.use(express.json());
 app.use(clerkMiddleware());
+
+app.use('/webhooks', bodyParser.raw({ type: '*/*' }));
 
 // Health route
 app.get("/", (req, res) => res.send("API WORKING"));
@@ -46,6 +48,7 @@ app.get("/debug-sentry", function mainHandler(req, res) {
 
 
 // API Routes
+app.post('/webhooks', clerkWebhooks);
 app.use("/api/company", companyRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use("/api/users", userRoutes);
