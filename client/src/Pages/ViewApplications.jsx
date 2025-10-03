@@ -1,5 +1,5 @@
 
-import { assets, viewApplicationsPageData } from '../assets/assets'
+import { assets} from '../assets/assets'
 import { useContext } from 'react'
 import { AppContext } from '../Context/AppContext'
 import { useState } from 'react'

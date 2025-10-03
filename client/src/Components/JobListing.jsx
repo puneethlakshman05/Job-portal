@@ -38,9 +38,9 @@ const JobListing = () => {
         // setCurrentage(1);
     }, [jobs,selectedLocations,selectedCategories,searchFilter]);
   return (
-    <div className='container 2xl:px-20 mx-auto flex flex-col lg:flex-row max-lg:space-y-8 py-8'>
+    <div className='container 2xl:px-20 mx-auto  flex flex-col lg:flex-row max-lg:space-y-6 py-8'>
         {/* Sidebar */}
-       <div className='w-full lg-w-1/4 bg-white px-4'>
+       <div className='w-1/2 lg-w-1/4 bg-white px-4 '>
         {/* Search Filter from Hero Component */}
         {
             isSearched && (searchFilter.title !== "" || searchFilter.location !== "") &&
@@ -67,7 +67,7 @@ const JobListing = () => {
             )
         }
     <button onClick={e => setShowFilter(prev => !prev)} className='px-6 py-1.5 rounded border border-gray-400 lg:hidden'>
-        {showFilter ? "Close" : "Filters"};
+        {showFilter ? "Close" : "Filters"}
     </button>
 
 
@@ -101,12 +101,12 @@ const JobListing = () => {
         </div>
        </div>
        {/* Job listings */}
-       <section className=' text-gray-800 max-lg:px-2'>
+       <section className=' text-gray-800 max-lg:px-2 '>
         <h3 className='font-medium text-3xl py-2' id='job-list'>Latest Jobs</h3>
         <p className='mb-8'>Get your desired job from top companies</p>
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4'>
             {filteredJobs.slice((currentPage - 1)*6,currentPage * 6).map((job,index)=>(
-                <JobCard key={index} job={job}/>
+                <JobCard  key={index} job={job}/>
             ))}
         </div>
         {/* Pagination */}

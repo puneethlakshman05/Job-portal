@@ -17,37 +17,62 @@ const RecruiterLogin = () => {
     const [image, setImage] = useState(false);
     const[isTextDataSubmitted, setIsDataSubmitted] = useState(false);
     const {setShowRecruiterLogin, backendUrl, setCompanyToken, setCompanyData} = useContext(AppContext);
-    const onSubmitHandler = async(e) =>{
-            e.preventDefault();
-            //  console.log("Button clicked ✅");
-            if(state === "Sign Up" && !isTextDataSubmitted)
-            {
-                setIsDataSubmitted(true);
-            }
+    const onSubmitHandler = async (e) => {
+  e.preventDefault();
 
-            try {
-                
-                if(state === "Login"){
-                    const {data} = await axios.post(backendUrl + '/api/company/login',{email,password});
-                    if(data.success)
-                    {
-                    console.log(data);
-                    setCompanyData(data.company)
-                    setCompanyToken(data.token)
-                    localStorage.setItem('companyToken',data.token)
-                    setShowRecruiterLogin(false)               
-                    navigate('/dashboard')
-                    }
-                      else{
-                    toast.error(data.message)
-                }
-                }
-              
-            } 
-            catch (error) {
-                toast.error(error.message);
-            }
+  try {
+    if (state === "Login") {
+      // LOGIN FLOW
+      const { data } = await axios.post(
+        backendUrl + "/api/company/login",
+        { email, password }
+      );
+
+      if (data.success) {
+        setCompanyData(data.company);
+        setCompanyToken(data.token);
+        localStorage.setItem("companyToken", data.token);
+        setShowRecruiterLogin(false);
+        navigate("/dashboard");
+      } else {
+        toast.error(data.message);
+      }
+    } else if (state === "Sign Up") {
+      // FIRST STEP → TEXT DATA SUBMISSION
+      if (!isTextDataSubmitted) {
+        setIsDataSubmitted(true);
+        return; // show image upload step
+      }
+
+      // SECOND STEP → CREATE ACCOUNT (FORM DATA)
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("email", email);
+      formData.append("password", password);
+      if (image) {
+        formData.append("image", image); // 👈 field name must match backend multer setup
+      }
+
+      const { data } = await axios.post(
+        backendUrl + "/api/company/register",
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+
+      if (data.success) {
+        setCompanyData(data.company);
+        setCompanyToken(data.token);
+        localStorage.setItem("companyToken", data.token);
+        setShowRecruiterLogin(false);
+        navigate("/dashboard");
+      } else {
+        toast.error(data.message);
+      }
     }
+  } catch (error) {
+    toast.error(error.message);
+  }
+};
 
     useEffect(() => {
         document.body.style.overflow = 'hidden';

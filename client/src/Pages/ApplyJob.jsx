@@ -150,14 +150,23 @@ const applyHandler = async() =>{
          {/* Right section more jobs */}
         <div className="w-full lg:w-1/3 mt-6 lg:mt-0 space-y-5">
          <h2>More Jobs from {JobData.companyId.name}</h2>
-         {jobs.filter(job => job._id !== JobData._id && job.companyId._id === JobData.companyId._id)
-         .filter(job => {
-          //set of applied jobs ids
-          const appliedJobsIds = new Set(userApplications.map(app => app.jobId && app.jobId._id))
-          //Return true if the user as not applied for this job
-          return !appliedJobsIds.has(job._id)
-         }).slice(0,4)
-         .map((job,index) => <JobCard key={index} job={job}/>)}
+         {jobs
+  .filter(job => 
+    job && job._id !== JobData._id && 
+    job.companyId && JobData.companyId && 
+    job.companyId._id === JobData.companyId._id
+  )
+  .filter(job => {
+    const appliedJobsIds = new Set(
+      userApplications.map(app => app.jobId && app.jobId._id)
+    )
+    return !appliedJobsIds.has(job._id)
+  })
+  .slice(0, 4)
+  .map((job, index) => (
+    <JobCard key={job._id || index} job={job} />
+  ))}
+
         </div>
       </div>
     </div>
