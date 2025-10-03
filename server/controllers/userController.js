@@ -82,26 +82,36 @@ export const getUserJobApplications = async(req,res) =>
     }
 }
 //update user profile
-export const updateUserResume = async(req,res) =>
-{
-    try 
-    {
-        const {userId} = req.auth()
+export const updateUserResume = async (req, res) => {
+  try {
+    const { userId } = req.auth();
+    const resumeFile = req.file;
 
-        const resumeFile = req.file
-
-        const userData = await User.findById(userId)
-        if(resumeFile)
-        {
-            const resumeUpload = await cloudinary.uploader.upload(resumeFile.path)
-            userData.resume = resumeUpload.secure_url
-        }
-
-        await userData.save()
-
-        return res.json({sucess:true, message:'Resume Updated'})
-    } 
-    catch (error) {
-        res.json({sucess:false, message:error.message})
+    if (!resumeFile) {
+      return res.json({ success: false, message: "No file uploaded" });
     }
-} 
+
+    const userData = await User.findById(userId);
+
+    // Upload buffer to cloudinary
+    const uploadPromise = new Promise((resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream(
+        { resource_type: "raw" }, // raw for pdf, docx etc.
+        (error, result) => {
+          if (error) reject(error);
+          else resolve(result);
+        }
+      );
+      stream.end(resumeFile.buffer); // Send buffer instead of file path
+    });
+
+    const resumeUpload = await uploadPromise;
+
+    userData.resume = resumeUpload.secure_url;
+    await userData.save();
+
+    return res.json({ success: true, message: "Resume Updated" });
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};

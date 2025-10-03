@@ -17,7 +17,7 @@ router.get('/company', protectCompany, getCompanyData);
 router.post('/post-job',protectCompany,postJob);
 
 //get applicants data of company
-router.get('/applicants',getCompanyJobApplicants);
+router.get('/applicants',protectCompany,getCompanyJobApplicants);
 
 //get company job list
 router.get('/list-jobs',protectCompany,getCompanyPostedJobs);

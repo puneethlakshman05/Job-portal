@@ -87,6 +87,28 @@ const fetchUserData = async() =>{
   }
 }
 
+//function  to fetch users application data
+const  fetchUserApplications = async() =>{
+    try {
+      
+      const token = await getToken()
+      const {data} = await axios.get(backendUrl+'/api/users/applications',
+      {headers:{Authorization:`Bearer ${token}`}}
+      )
+
+      if(data.success){
+        // toast.success(data.message);
+        setUserApplications(data.applications)
+      }
+      else{
+        toast.error(data.message);
+      }
+    } 
+    catch (error) {
+      toast.error(error.message);
+    }
+}
+
   useEffect(() =>{
     fetchJobs();
 
@@ -110,6 +132,7 @@ const fetchUserData = async() =>{
   useEffect(() =>{
     if (user) {
       fetchUserData()
+      fetchUserApplications()
     }
   },[user])
 
@@ -120,7 +143,11 @@ const fetchUserData = async() =>{
         showRecruiterLogin, setShowRecruiterLogin,
         companyToken, setCompanyToken,
         companyData, setCompanyData,
-        backendUrl
+        backendUrl,
+        userData,setUserData,
+        userApplications, setUserApplications,
+        fetchUserData,
+        fetchUserApplications
     }
   
     return (
