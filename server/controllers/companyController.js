@@ -4,6 +4,7 @@ import {v2 as cloudinary} from "cloudinary";
 import generateToken from "../utils/generateToken.js";
 import Job from "../models/Job.js";
 import JobApplication from "../models/jobApplication.js";
+import nodemailer from 'nodemailer';
 
 
 //Register a new Company
@@ -96,6 +97,69 @@ export const loginCompany = async(req,res)=>{
         })
     }
 }
+
+
+//forgot password
+export const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await Company.findOne({ email });
+    if (!user) return res.json({ success: false, message: "Email not found" });
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    user.otp = otp;
+    user.otpExpiry = Date.now() + 10 * 60 * 1000; // 10 minutes
+    await user.save();
+
+    // ✅ Send OTP via email
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,  // Your email
+        pass: process.env.EMAIL_PASS,  // App Password (not regular password)
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: 'Password Reset OTP',
+      text: `Your OTP for password reset is ${otp}. It will expire in 10 minutes.`,
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    res.json({ success: true, message: "OTP sent successfully to your email" });
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
+
+//reset password
+export const resetPassword = async (req, res) => {
+  const { email, otp, newPassword } = req.body;
+  try {
+    const user = await Company.findOne({ email });
+    if (!user) return res.json({ success: false, message: "User not found" });
+
+    if (user.otp !== otp)
+      return res.json({ success: false, message: "Invalid OTP" });
+
+    if (user.otpExpiry < Date.now())
+      return res.json({ success: false, message: "OTP expired" });
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    user.otp = null;
+    user.otpExpiry = null;
+    await user.save();
+
+    res.json({ success: true, message: "Password reset successfully" });
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
+
 
 //get company data
 export const getCompanyData = async(req,res) =>{

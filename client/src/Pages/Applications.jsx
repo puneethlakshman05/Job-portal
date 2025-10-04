@@ -69,7 +69,7 @@ const Applications = () => {
       <div className="container px-4 min-h-[65vh] 2xl:px-20 mx-auto my-8">
         {/* Resume Section */}
         <h2 className="text-xl font-semibold">Your Resume</h2>
-        <div className="flex gap-2 mb-6 mt-3">
+        <div className="flex flex-wrap gap-2 mb-6 mt-3">
           {isEdit || !userData?.resume ? (
             <>
               <label className="flex items-center" htmlFor="resumeUpload">
@@ -114,69 +114,82 @@ const Applications = () => {
 
         {/* Jobs Applied Section */}
         <h2 className="text-xl font-semibold mb-4">Jobs Applied</h2>
-        <table className="min-w-full bg-white rounded-lg border">
-          <thead>
-            <tr>
-              <th className="py-3 px-4 border-b text-left">Company</th>
-              <th className="py-3 px-4 border-b text-left">Job Title</th>
-              <th className="py-3 px-4 border-b text-left max-sm:hidden">
-                Location
-              </th>
-              <th className="py-3 px-4 border-b text-left max-sm:hidden">
-                Date
-              </th>
-              <th className="py-3 px-4 border-b text-left">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {userApplications && userApplications.length > 0 ? (
-              userApplications.map((job, index) =>
-                job?.jobId && job?.companyId ? (
-                  <tr key={index}>
-                    <td className="py-3 px-4 flex items-center gap-2 border-b">
-                      <img
-                        className="w-8 h-8 object-contain"
-                        src={job.companyId?.image || "/fallback-logo.png"}
-                        alt="logo"
-                      />
-                      {job.companyId?.name || "Unknown Company"}
-                    </td>
-                    <td className="py-2 px-4 border-b">
-                      {job.jobId?.title || "Untitled Job"}
-                    </td>
-                    <td className="py-2 px-4 border-b max-sm:hidden">
-                      {job.jobId?.location || "N/A"}
-                    </td>
-                    <td className="py-2 px-4 border-b max-sm:hidden">
-                      {job.date ? moment(job.date).format("ll") : "N/A"}
-                    </td>
-                    <td className="py-2 px-4 border-b">
-                      <span
-                        className={`${
-                          job.status === "Accepted"
-                            ? "bg-green-100 text-green-700"
-                            : job.status === "Rejected"
-                            ? "bg-red-100 text-red-700"
-                            : "bg-blue-100 text-blue-700"
-                        } px-4 py-2 rounded-lg`}
-                      >
-                        {job.status || "Pending"}
-                      </span>
-                    </td>
-                  </tr>
-                ) : null
-              )
-            ) : (
+
+        {/* ✅ Responsive Table Wrapper */}
+        <div className="overflow-x-auto rounded-lg border border-gray-700">
+          <table className="min-w-full bg-white rounded-lg">
+            <thead className="bg-gray-50  border-b">
               <tr>
-                <td colSpan="5" className="text-center py-4 text-gray-500">
-                  {userApplications && userApplications.length === 0
-                    ? "No applications found"
-                    : "Loading..."}
-                </td>
+                <th className="py-3 px-4 text-left text-gray-700 font-medium">
+                  Company
+                </th>
+                <th className="py-3 px-4 text-left text-gray-700 font-medium">
+                  Job Title
+                </th>
+                <th className="py-3 px-4 text-left text-gray-700 font-medium max-sm:hidden">
+                  Location
+                </th>
+                <th className="py-3 px-4 text-left text-gray-700 font-medium max-sm:hidden">
+                  Date
+                </th>
+                <th className="py-3 px-4 text-left text-gray-700 font-medium">
+                  Status
+                </th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {userApplications && userApplications.length > 0 ? (
+                userApplications.map((job, index) =>
+                  job?.jobId && job?.companyId ? (
+                    <tr
+                      key={index}
+                      className="hover:bg-gray-50 transition-colors border-b last:border-b-0"
+                    >
+                      <td className="py-3 px-4 flex items-center gap-2">
+                        <img
+                          className="w-8 h-8 object-contain"
+                          src={job.companyId?.image || "/fallback-logo.png"}
+                          alt="logo"
+                        />
+                        {job.companyId?.name || "Unknown Company"}
+                      </td>
+                      <td className="py-2 px-4">
+                        {job.jobId?.title || "Untitled Job"}
+                      </td>
+                      <td className="py-2 px-4 max-sm:hidden">
+                        {job.jobId?.location || "N/A"}
+                      </td>
+                      <td className="py-2 px-4 max-sm:hidden">
+                        {job.date ? moment(job.date).format("ll") : "N/A"}
+                      </td>
+                      <td className="py-2 px-4">
+                        <span
+                          className={`${
+                            job.status === "Accepted"
+                              ? "bg-green-100 text-green-700"
+                              : job.status === "Rejected"
+                              ? "bg-red-100 text-red-700"
+                              : "bg-blue-100 text-blue-700"
+                          } px-4 py-2 rounded-lg`}
+                        >
+                          {job.status || "Pending"}
+                        </span>
+                      </td>
+                    </tr>
+                  ) : null
+                )
+              ) : (
+                <tr>
+                  <td colSpan="5" className="text-center py-4 text-gray-500">
+                    {userApplications && userApplications.length === 0
+                      ? "No applications found"
+                      : "Loading..."}
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <Footer />

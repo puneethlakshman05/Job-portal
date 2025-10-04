@@ -26,7 +26,7 @@ const JobListing = () => {
         const matchesCategory = (job) => selectedCategories.length === 0 || selectedCategories.includes(job.category);
         const matchesLocation = (job) => selectedLocations.length === 0 || selectedLocations.includes(job.location);
         const matchesTitle = (job) => searchFilter.title === "" || job.title.toLowerCase().includes(searchFilter.title.toLowerCase());
-        const matcheslocation = (job) => searchFilter.location === "" || job.location.toLowerCase().includes(searchFilter.location.toLowercase());
+        const matcheslocation = (job) => searchFilter.location === "" || job.location.toLowerCase().includes(searchFilter.location.toLowerCase());
         const newFilteredJobs = jobs.slice().reverse().filter(
             job => matchesCategory(job) && matchesLocation(job) && matchesTitle(job) && matcheslocation(job)
         )

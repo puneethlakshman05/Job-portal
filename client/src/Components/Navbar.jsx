@@ -14,7 +14,7 @@ const Navbar = () => {
   return (
     <div className='shadow py-2 p-fixed z-50 !important'>
         <div className='container px-6 2xl:px-20 mx-auto flex justify-between items-center'>
-            <img onClick={()=>navigate('/')} className='cursor-pointer' src={assets.logo} alt="logo" />
+            <img onClick={()=>navigate('/')} className='cursor-pointer h-15 w-auto ' src={assets.hiresphere} alt="logo" />
             {
             user
             ?<div className='flex items-center gap-3'>

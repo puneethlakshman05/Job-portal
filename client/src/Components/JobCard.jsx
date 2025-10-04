@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom"
 const JobCard = ({job}) => {
   const navigate = useNavigate();
   return (
-     <div className="flex justify-between items-start ">
-    <div className="border p-4 shadow rounded h-full  ">
+     <div className="flex justify-between items-start shadow-2xl  ">
+    <div className="border p-4  rounded h-full w-full  ">
      
      {/* <div className="flex justify-start items-start"> */}
         <div className="w-16 h-16 flex items-center justify-between">
