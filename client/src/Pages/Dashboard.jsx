@@ -4,6 +4,7 @@ import { assets } from "../assets/assets"
 import { useContext } from "react";
 import { AppContext } from "../Context/AppContext";
 import { useEffect } from "react";
+import Footer from "../Components/Footer";
 
 
 const Dashboard = () => {
@@ -25,12 +26,13 @@ const Dashboard = () => {
         }
     }, [companyData])
     return (
+        <>
         <div className="min-h-screen">
             {/* Navbar for recruiter panel */}
 
-            <div className="shadow py-4">
-                <div className="px-5 flex justify-between items-center">
-                    <img onClick={e => navigate('/')} className="max-sm:w-32 cursor-pointer" src={assets.logo} alt="" />
+            <div className="shadow py-4 border-gray-400 border-b-2 ">
+                <div className="px-5 flex justify-between items-center ">
+                    <img onClick={e => navigate('/')} className="max-sm:w-32 cursor-pointer h-15 w-auto" src={assets.hiresphere} alt="" />
                     {companyData && (
                         <div className="flex items-center gap-3">
                             <p className="max-sm:hidden">Welcome,{companyData.name}</p>
@@ -53,9 +55,9 @@ const Dashboard = () => {
             </div>
 
 
-            <div className="flex items-start">
+            <div className="flex items-start ">
                 {/* left sidebar with option to add job, mange jobs view applications */}
-                <div className="inline-block min-h-screen border-r-2">
+                <div className="inline-block min-h-screen border-r-2 border-gray-400">
                     <ul className='flex flex-col items-start pt-5 text-gray-800'>
                         <NavLink className={({ isActive }) => `flex items-center p-3 sm:px-6 gap-2 w-full hover:bg-gray-100 ${isActive && 'bg-blue-100  border-r-4 border-blue-500'}`} to={'/dashboard/add-job'}>
                             <img className="min-w-4" src={assets.add_icon} alt="" />
@@ -78,6 +80,9 @@ const Dashboard = () => {
                 </div>
             </div>
         </div>
+         {/* <Footer/> */}
+        </>
+    
     )
 }
 
