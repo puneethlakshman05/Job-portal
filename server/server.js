@@ -13,14 +13,31 @@ import { clerkMiddleware } from "@clerk/express";
 import { clerkWebhooks } from "./controllers/webhooks.js";
 
 const app = express();
+const PORT = process.env.PORT || 5000;
 
 // 📌 Connect DB + Cloudinary
-(async () => {
-  await connectDB();
-  await connectCloudinary();
-})();
+// (async () => {
+//   await connectDB();
+//   await connectCloudinary();
+// })();
 
+const startServer = async () => {
+    try {
+        await connectDB();
+        await connectCloudinary();
 
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+        });
+    } catch (err) {
+        console.error("Startup failed:", err);
+        process.exit(1);
+    }
+};
+
+startServer();
+
+console.log(process.env.MONGODB_URI);
 // ✅ Clerk Webhooks (raw body required only here)
 // Clerk Webhook (must be raw body)
 // app.post(
@@ -34,7 +51,16 @@ const app = express();
 // Middlewares
 app.use(cors());
 app.use(express.json());
-app.use(clerkMiddleware());
+// app.use(clerkMiddleware());
+app.use(
+  clerkMiddleware({
+    secretKey: process.env.CLERK_SECRET_KEY,
+  })
+);
+console.log(
+  "Secret key loaded:",
+  process.env.CLERK_SECRET_KEY?.startsWith("sk_test_")
+);
 
 // 👉 Raw body parser for Clerk Webhooks (Only on /webhooks route)
 app.use('/webhooks', bodyParser.raw({ type: '*/*' }));
@@ -57,7 +83,7 @@ app.use("/api/users", userRoutes);
 // Sentry error handler
 Sentry.setupExpressErrorHandler(app);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(` Server running on port ${PORT}`);
-});
+
+// app.listen(PORT, () => {
+//   console.log(` Server running on port ${PORT}`);
+// });

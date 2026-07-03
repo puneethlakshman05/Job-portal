@@ -6,12 +6,16 @@ import { v2 as cloudinary } from "cloudinary"
 
 //get user data
 export const getUserData = async(req,res) =>{
-    
+    console.log("Controller reached");
     const {userId} = req.auth()
+    console.log("Authorization:", req.headers.authorization);
+    console.log(req.auth());
+    console.log("Authenticated userId:", userId);
 
     try {
         const user = await User.findById(userId)
-        
+        console.log("User found:", user);
+
         if(!user)
         {
             return res.json({success:false, message:'User not found'})

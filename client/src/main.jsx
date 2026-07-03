@@ -7,6 +7,8 @@ import { AppContextProvider } from './Context/AppContext.jsx'
 import { ClerkProvider } from '@clerk/clerk-react'
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+console.log(import.meta.env);
+
 // add-job:1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was received
 // 2content.js:1463 Uncaught Error: Extension context invalidated.
 //     at content.js:1463:18778

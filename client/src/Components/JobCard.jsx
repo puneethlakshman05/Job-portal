@@ -5,7 +5,7 @@ const JobCard = ({job}) => {
   const navigate = useNavigate();
   return (
      <div className="flex items-start justify-between shadow-2xl   transition-transform hover:scale-[1.02] ">
-    <div className="border p-4  rounded-lg h-full">
+    <div className="border w-full p-4  rounded-lg h-full">
      
      {/* <div className="flex justify-start items-start"> */}
         <div className="w-16 h-16 flex items-center ">

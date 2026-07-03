@@ -106,11 +106,11 @@ const ViewApplications = () => {
                       <img src={assets.resume_download_icon} alt="" className="w-4 h-4" />
                     </a>
                   </td>
-                  <td className="py-3 px-4 relative">
+                  <td className="py-6 px-4 relative ">
                     {applicant.status === 'Pending' ? (
                       <div className="relative inline-block group">
                         <button className="text-gray-500 px-2">•••</button>
-                        <div className="absolute right-0 mt-2 w-28 bg-white border border-gray-200 rounded-md shadow-md z-10 hidden group-hover:block">
+                        <div className="absolute right-0 mt-0 w-28 bg-white border border-gray-200 rounded-md shadow-md z-10 hidden  group-hover:block">
                           <button
                             onClick={() =>
                               changeJobApplicationStatus(applicant._id, 'Accepted')

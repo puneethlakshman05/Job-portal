@@ -2,11 +2,15 @@ import express from "express";
 import multer from "multer";
 import { applyForJob, getUserData, getUserJobApplications, updateUserResume } from "../controllers/userController.js";
 import upload from "../config/multer.js";
+import { requireAuth } from "@clerk/express";
 // const upload = multer({dest:'uploads/'})
 const router = express.Router();
 
 //get userData 
-router.get('/user',getUserData);
+// router.get('/user',getUserData);
+
+
+router.get("/user", requireAuth(), getUserData);
 
 //apply for a job
 router.post('/apply',applyForJob);
