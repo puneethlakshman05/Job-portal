@@ -11,6 +11,8 @@ import jobRoutes from "./routes/jobRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import { clerkMiddleware } from "@clerk/express";
 import { clerkWebhooks } from "./controllers/webhooks.js";
+import dns from "dns";
+
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -34,10 +36,10 @@ const startServer = async () => {
         process.exit(1);
     }
 };
-
+dns.setServers(["8.8.8.8", "1.1.1.1"]);
 startServer();
 
-console.log(process.env.MONGODB_URI);
+// console.log(process.env.MONGODB_URI);
 // ✅ Clerk Webhooks (raw body required only here)
 // Clerk Webhook (must be raw body)
 // app.post(

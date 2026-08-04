@@ -63,7 +63,7 @@ const ViewApplications = () => {
 
       {/* ✅ Desktop Table */}
       <div className="hidden md:block overflow-x-auto shadow-lg rounded-2xl">
-        <table className="w-full bg-white border border-gray-200 rounded-2xl overflow-hidden">
+        <table className="w-full min-w-[900px] bg-white border border-gray-200 rounded-2xl overflow-hidden">
           <thead className="bg-gray-100 text-gray-700 text-sm uppercase">
             <tr>
               <th className="py-3 px-4 text-left">No.</th>

@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
 });
 
 // optional: re-create clean index
-userSchema.index({ email: 1 }, { unique: true, sparse: true });
+// userSchema.index({ email: 1 }, { unique: true, sparse: true });
 
 const User = mongoose.model('User', userSchema);
 
