@@ -51,7 +51,10 @@ startServer();
 
 
 // Middlewares
-app.use(cors());
+app.use(cors({
+        origin: "https://job-portal-hiresphere.vercel.app",
+        credentials: true
+    }));
 app.use(express.json());
 // app.use(clerkMiddleware());
 app.use(
