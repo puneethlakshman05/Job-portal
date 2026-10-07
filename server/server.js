@@ -51,8 +51,12 @@ startServer();
 
 
 // Middlewares
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://job-portal-hiresphere.vercel.app"
+];
 app.use(cors({
-        origin: "https://job-portal-hiresphere.vercel.app",
+        origin: allowedOrigins,
         credentials: true
     }));
 app.use(express.json());
